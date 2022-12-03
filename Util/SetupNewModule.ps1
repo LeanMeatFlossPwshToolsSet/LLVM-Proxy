@@ -4,6 +4,7 @@ param(
     $ModuleName
 )
 $initLocation=Get-Location
+Set-Location "$PSScriptRoot/../"
 $gitUrl=(git remote get-url --all origin)
 Write-Host "Current git url is $gitUrl"
 $gitRepoName=($gitUrl.replace(".git","") -split "/")[-1]
@@ -11,9 +12,6 @@ Write-Host "Current git repo name is $gitRepoName"
 $moduleBaseName=$gitRepoName.Replace("-","")
 Write-Host "Current module base name $moduleBaseName"
 $gitHostName=($gitUrl.replace(".git","") -split "/")[-2]
-
-
-Set-Location "$PSScriptRoot/../"
 New-Item -Path "./$moduleBaseName/$moduleBaseName-$ModuleName" -ItemType Directory -Force
 New-Item -Path "./$moduleBaseName/$moduleBaseName-$ModuleName/$moduleBaseName-$ModuleName.Tests.ps1" -ItemType File -Force -Value @'
 BeforeAll{
